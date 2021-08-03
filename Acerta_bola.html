@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <style type="text/css">
+    
+       
+        .bola {
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            display: inline-block;
+            border: 2.5px solid black;
+
+        }
+
+        body {
+            background-color: lightgray;
+            width: 50em;
+            
+        }
+
+        p {
+            color: orange;
+            font-size: 50px;
+            text-align: center;
+            text-shadow: 3px 3px #000;
+            text-decoration: underline;
+        }
+        
+        .pontos {
+            background-color: black;
+            width: 100%;
+        }
+        
+        .i{
+            background-color: blue;
+        }
+
+
+    </style>
+
+    <meta charset="UTF-8">
+    <title> Estoura bolha </title>
+    <link href="reset.css"/>
+
+</head>
+
+<script>
+
+
+
+    function iniciar() {
+        setInterval(addBola, 1000);
+    }
+
+
+
+    var estouradas = 0;
+    var temporizador;
+    var timer = 1000;
+    var nivel = 1;
+
+    function cor_aleatoria() {
+        var hexadecimais = '0123456789ABCDEF';
+        cor = '#';
+        for (var i = 0; i < 6; i++) {
+            cor = cor + hexadecimais[Math.floor(Math.random()*16)];
+        }
+        return cor;
+    }
+
+    function addBola() {
+        let bola = document.createElement("div");
+        bola.setAttribute("class", "bola");
+        let pX = Math.floor(Math.random() * 500);
+        let pY = Math.floor(Math.random() * 500);
+        bola.setAttribute("style", "background-color:" + cor_aleatoria() + "; " + "left:" + pX + "px; top:" + pY+ "px; " + bola.setAttribute("onclick", "estourar(this)"));
+        document.body.appendChild(bola);
+    }
+
+    function estourar(elemento) {
+        document.body.removeChild(elemento);
+        estouradas++;
+        document.getElementById("pontuacao").textContent = estouradas;
+        if (estouradas%5 == 0) {
+            clearInterval(temporizador);
+            timer -= 50;
+            nivel++;
+            alert("PROXIMO NIVEL")
+            document.getElementById("nivel").textContent = nivel;
+            iniciar(timer);
+        }
+
+        while (estouradas == 5) {
+            alert("Consquista desbloqueada:  Estourador I");
+            break
+        }
+        while (estouradas == 20) {
+            alert("Consquista desbloqueada:      Estourador II");
+            break
+        }
+        
+        while(estouradas == 40){
+            alert("Consquista desbloqueada:    Estourador III");
+            break
+            
+        }
+        
+    }
+    
+
+
+    function iniciar(t) {
+        temporizador = setInterval(addBola, t);
+    }
+
+
+</script>
+
+<body onload="iniciar(1000)">
+  <section class="pontos">
+    <p>
+        Estouradas: <span id="pontuacao">0</span>
+    </p>
+    <p>
+        Nível: <span id="nivel">1</span>
+    </p>
+    <hr class="i"/>
+  </section>
+
+</body>
+</html>
